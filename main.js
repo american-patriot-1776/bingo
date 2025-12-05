@@ -35,7 +35,7 @@ const ASSETS = {
     }
 }
 
-let LIST = [
+const LIST = [
     {
         text: 'AFRICAN HERITAGE',
         image: ASSETS.images.african
@@ -139,6 +139,8 @@ const FREE_SPACE = {
     image: ASSETS.images.forsen
 }
 
+let GAME_BOARD
+
 
 
 
@@ -146,9 +148,13 @@ const FREE_SPACE = {
 async function init () {
     await loadAssets()
 
-    shuffleList()
+    let list = seededList()
 
-    formatList()
+    if (!list) {
+        list = shuffleList()
+    }
+
+    GAME_BOARD = formatList(list)
 
     drawBoard()
 
@@ -211,32 +217,90 @@ function getAudio (url) {
 
 
 
-function shuffleList () {
-    let currentIndex = LIST.length
+function seededList () {
+    const params = new URLSearchParams(location.search)
 
-    while (currentIndex) {
-        let randomIndex = Math.floor(Math.random() * currentIndex)
+    const seed = params.get('seed')
 
-        currentIndex--
-
-        [LIST[currentIndex], LIST[randomIndex]] = [LIST[randomIndex], LIST[currentIndex]]
+    if (!seed) {
+        return
     }
 
-    LIST.splice(12, 0, FREE_SPACE)
+    let decoded
+
+    try {
+        decoded = JSON.parse(atob(seed))
+    } catch (error) {
+        return
+    }
+
+    const name = document.getElementById('name')
+
+    name.innerText = `${ decoded.name } `
+
+    const list = []
+
+    for (const index of decoded.indices) {
+        const option = LIST[index]
+
+        list.push({ ...option })
+    }
+
+    appendFreeSpace(list)
+
+    return list
 }
 
 
 
 
 
-function formatList () {
+function shuffleList () {
+    const list = deepCopy(LIST)
+
+    let currentIndex = list.length
+
+    while (currentIndex) {
+        let randomIndex = Math.floor(Math.random() * currentIndex)
+
+        currentIndex--
+
+        [list[currentIndex], list[randomIndex]] = [list[randomIndex], list[currentIndex]]
+    }
+
+    appendFreeSpace(list)
+
+    return list
+}
+
+
+
+
+
+function appendFreeSpace (list) {
+    list.splice(12, 0, { ...FREE_SPACE })
+}
+
+
+
+
+
+function deepCopy (value) {
+    return JSON.parse(JSON.stringify(value))
+}
+
+
+
+
+
+function formatList (list) {
     let rows = []
 
     let row = []
 
     let count = 0
 
-    for (const item of LIST) {
+    for (const item of list) {
         count++
 
         row.push(item)
@@ -250,7 +314,7 @@ function formatList () {
         }
     }
 
-    LIST = rows
+    return rows
 }
 
 
@@ -260,8 +324,8 @@ function formatList () {
 function drawBoard () {
     const board = document.getElementById('board')
 
-    for (const [rowIndex, list] of LIST.entries()) {
-        const lastRow = rowIndex === LIST.length -1
+    for (const [rowIndex, list] of GAME_BOARD.entries()) {
+        const lastRow = rowIndex === GAME_BOARD.length -1
 
         const row = document.createElement('div')
 
@@ -304,6 +368,7 @@ function drawBoard () {
 
             const span = document.createElement('span')
 
+            span.className = 'cell-text'
             span.innerText = item.text
 
             cell.appendChild(span)
@@ -335,7 +400,7 @@ function updateSelectState (dataset) {
     const x = Number(dataset.x)
     const y = Number(dataset.y)
 
-    const cell = LIST[y][x]
+    const cell = GAME_BOARD[y][x]
 
     cell.selected = !cell.selected
 }
@@ -429,7 +494,7 @@ function checkForHorizontal (dataset) {
     const list = []
 
     for (let i = 0; i < 5; i++) {
-        const cell = LIST[y][i]
+        const cell = GAME_BOARD[y][i]
 
         list.push(cell.text)
 
@@ -451,7 +516,7 @@ function checkForVertical (dataset) {
     const list = []
 
     for (let i = 0; i < 5; i++) {
-        const cell = LIST[i][x]
+        const cell = GAME_BOARD[i][x]
 
         list.push(cell.text)
 
@@ -475,7 +540,7 @@ function checkForTopDownDiagnal (dataset) {
     const list = []
 
     for (let i = 0; i < 5; i++) {
-        const cell = LIST[i][i]
+        const cell = GAME_BOARD[i][i]
 
         list.push(cell.text)
 
@@ -495,11 +560,11 @@ function checkForDownTopDiagnal (dataset) {
     if (!dataset.downTop) {
         return false
     }
-    
+
     const list = []
 
     for (let x = 0, y = 4; x < 5; x++, y--) {
-        const cell = LIST[y][x]
+        const cell = GAME_BOARD[y][x]
 
         list.push(cell.text)
 
@@ -529,6 +594,41 @@ function toggleDisplay (key) {
 
         displayElement.classList.add('hidden')
     }
+}
+
+
+
+
+
+function generateLink (name) {
+    const seen = new Set()
+
+    const indices = []
+
+    while (seen.size !== LIST.length) {
+        const index = Math.floor(Math.random() * LIST.length)
+
+        if (seen.has(index)) {
+            continue
+        }
+
+        seen.add(index)
+
+        indices.push(index)
+    }
+
+    const data = {
+        name,
+        indices
+    }
+
+    const encoded = btoa(JSON.stringify(data))
+
+    const href = location.href.split('?')[0]
+
+    const url = `${ href }?seed=${ encoded }`
+
+    console.log(url)
 }
 
 
