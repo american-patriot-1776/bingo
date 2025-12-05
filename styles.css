@@ -1,0 +1,107 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+}
+
+html {
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    height: 100vh;
+}
+
+img, picture, svg, video {
+    display: block;
+    max-width: 100%;
+}
+
+h1 {
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+
+span {
+    text-align: center;
+    max-width: 125px;
+    padding: 3px;
+    opacity: 0.7;
+    background: black;
+    color: white;
+    font-size: 12px;
+    pointer-events: none;
+}
+
+button {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.container, .container-no-margin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container {
+    margin-top: 100px;
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.overlay, .overlay-x {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+}
+
+.overlay {
+    background: black;
+    opacity: .5;
+    z-index: 2;
+}
+
+.overlay-x {
+    z-index: 3;
+}
+
+.border-top {
+    border-top: 1px solid black;
+}
+
+.border-bottom {
+    border-bottom: 1px solid black;
+}
+
+.border-left {
+    border-left: 1px solid black;
+}
+
+.border-right {
+    border-right: 1px solid black;
+}
+
+.hidden {
+    display: none;
+}

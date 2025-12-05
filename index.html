@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="img/icon.jpg" type="image/jpg">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap">
+        <link rel="stylesheet" href="styles.css">
+        <title>GAME AWARDS BINGO CARD 2025</title>
+    </head>
+
+    <body>
+        <div class="container" data-display="board">
+            <h1>GAME AWARDS BINGO CARD 2025</h1>
+
+            <div onclick="onBoardClick(event)" id="board"></div>
+        </div>
+
+        <div class="container hidden" data-display="bingo">
+            <h1>BINGO !!!</h1>
+
+            <img src="img/happy.webp">
+
+            <h1>YOU GOT A BINGO WITH:</h1>
+
+            <div id="bingo-list" class="container-no-margin"></div>
+
+            <button onclick="toggleDisplay('board')">BACK TO BOARD</button>
+        </div>
+
+        <script src="main.js"></script>
+    </body>
+</html>
