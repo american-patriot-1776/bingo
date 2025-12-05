@@ -134,7 +134,7 @@ let LIST = [
     }
 ]
 
-const FREE_OPTION = {
+const FREE_SPACE = {
     text: 'JEWISH PROPAGANDA (FREE SPACE)',
     image: ASSETS.images.forsen
 }
@@ -144,7 +144,7 @@ const FREE_OPTION = {
 
 
 async function init () {
-    await loadResources()
+    await loadAssets()
 
     shuffleList()
 
@@ -159,7 +159,7 @@ async function init () {
 
 
 
-async function loadResources () {
+async function loadAssets () {
     const promises = []
 
     for (const value of Object.values(ASSETS.images)) {
@@ -222,7 +222,7 @@ function shuffleList () {
         [LIST[currentIndex], LIST[randomIndex]] = [LIST[randomIndex], LIST[currentIndex]]
     }
 
-    LIST.splice(12, 0, FREE_OPTION)
+    LIST.splice(12, 0, FREE_SPACE)
 }
 
 
@@ -274,6 +274,14 @@ function drawBoard () {
 
             cell.dataset.x = cellIndex
             cell.dataset.y = rowIndex
+
+            if (rowIndex === cellIndex) {
+                cell.dataset.topDown = 'true'
+            }
+
+            if (rowIndex + cellIndex === 4) {
+                cell.dataset.downTop = 'true'
+            }
 
             cell.style.cssText = `
                 background-image: url(${ item.image });
@@ -376,15 +384,12 @@ function deselectCell (target) {
 
 
 function checkForWin (dataset) {
-    const x = Number(dataset.x)
-    const y = Number(dataset.y)
-
     let passed
 
     const checks = [checkForHorizontal, checkForVertical, checkForTopDownDiagnal, checkForDownTopDiagnal]
 
     for (const check of checks) {
-        passed = check(x, y)
+        passed = check(dataset)
 
         if (passed) {
             break
@@ -418,7 +423,9 @@ function checkForWin (dataset) {
 
 
 
-function checkForHorizontal (x, y) {
+function checkForHorizontal (dataset) {
+    const y = Number(dataset.y)
+
     const list = []
 
     for (let i = 0; i < 5; i++) {
@@ -438,7 +445,9 @@ function checkForHorizontal (x, y) {
 
 
 
-function checkForVertical (x, y) {
+function checkForVertical (dataset) {
+    const x = Number(dataset.x)
+    
     const list = []
 
     for (let i = 0; i < 5; i++) {
@@ -458,7 +467,11 @@ function checkForVertical (x, y) {
 
 
 
-function checkForTopDownDiagnal () {
+function checkForTopDownDiagnal (dataset) {
+    if (!dataset.topDown) {
+        return false
+    }
+
     const list = []
 
     for (let i = 0; i < 5; i++) {
@@ -478,7 +491,11 @@ function checkForTopDownDiagnal () {
 
 
 
-function checkForDownTopDiagnal () {
+function checkForDownTopDiagnal (dataset) {
+    if (!dataset.downTop) {
+        return false
+    }
+    
     const list = []
 
     for (let x = 0, y = 4; x < 5; x++, y--) {
