@@ -1,4 +1,39 @@
-const AUDIO = new Audio('audio/winner.wav')
+const IMAGES = [
+    'img/african.jpg',
+    'img/bald.jpg',
+    'img/bridge.jpg',
+    'img/cinema.jpg',
+    'img/cozy.jpg',
+    'img/cupcake.jpg',
+    'img/dementia.jpg',
+    'img/dennys.jpg',
+    'img/doc.jpg',
+    'img/forsen.jpg',
+    'img/gaming.jpg',
+    'img/green.jpg',
+    'img/happy.webp',
+    'img/icon.jpg',
+    'img/india.jpg',
+    'img/japan.jpg',
+    'img/jar.jpg',
+    'img/libtard.jpg',
+    'img/lick.jpg',
+    'img/look.jpg',
+    'img/mark.jpg',
+    'img/peaky.jpg',
+    'img/bald.jpg',
+    'img/remake.jpg',
+    'img/stare.jpg',
+    'img/swear.jpg',
+    'img/troll.jpg',
+    'img/walk.jpg',
+    'img/waltuh.jpg',
+    'img/x.png'
+]
+
+const AUDIO = [
+    'audio/winner.wav'
+]
 
 let LIST = [
     {
@@ -108,12 +143,68 @@ const FREE_OPTION = {
 
 
 
-function init () {
+async function init () {
+    await loadResources()
+
     shuffleList()
 
     formatList()
 
     drawBoard()
+
+    toggleDisplay('board')
+}
+
+
+
+
+
+async function loadResources () {
+    const promises = []
+
+    for (const image of IMAGES) {
+        const imagePromise = getImage(image)
+
+        promises.push(imagePromise)
+    }
+
+    for (const audio of AUDIO) {
+        const audioPromise = getAudio(audio)
+
+        promises.push(audioPromise)
+    }
+
+    await Promise.all(promises)
+}
+
+
+
+
+
+function getImage (url) {
+    return new Promise((resolve) => {
+        const image = new Image()
+
+        image.onload = () => resolve()
+
+        image.src = url
+    })
+}
+
+
+
+
+
+function getAudio (url) {
+    return new Promise((resolve) => {
+        const audio = new Audio()
+
+        audio.oncanplaythrough  = () => resolve()
+
+        audio.src = url
+
+        audio.load()
+    })
 }
 
 
