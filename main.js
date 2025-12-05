@@ -1,3 +1,5 @@
+const AUDIO = new Audio('audio/winner.wav')
+
 let LIST = [
     {
         text: 'FEUDAL JAPAN',
@@ -318,8 +320,7 @@ function checkForWin (dataset) {
 
     toggleDisplay('bingo')
 
-    const audio = new Audio('audio/winner.wav')
-    audio.play()
+    AUDIO.play()
 }
 
 
