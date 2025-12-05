@@ -411,7 +411,9 @@ function checkForWin (dataset) {
 
     toggleDisplay('bingo')
 
-    AUDIO.play()
+    const audio = new Audio('audio/winner.wav')
+
+    audio.play()
 }
 
 
