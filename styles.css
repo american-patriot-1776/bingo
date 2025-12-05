@@ -105,3 +105,17 @@ button {
 .hidden {
     display: none;
 }
+
+.text-center {
+    text-align: center;
+}
+
+@media (max-width: 1000px) {
+    .desktop {
+        display: none;
+    }
+
+    .phone {
+        display: block;
+    }
+}
