@@ -5,8 +5,10 @@ const ASSETS = {
     images: {
         african:  'img/african.jpg',
         bald:     'img/bald.jpg',
+        bingo:    'img/bingo.webp',
         bridge:   'img/bridge.jpg',
         cinema:   'img/cinema.jpg',
+        confetti: 'img/confetti.webp',
         cozy:     'img/cozy.jpg',
         cupcake:  'img/cupcake.jpg',
         dementia: 'img/dementia.jpg',
@@ -477,6 +479,8 @@ function checkForWin (dataset) {
         bingoList.appendChild(h1)
     }
 
+    document.body.classList.add('confetti')
+
     toggleDisplay('bingo')
 
     const audio = new Audio('audio/winner.wav')
@@ -594,6 +598,16 @@ function toggleDisplay (key) {
 
         displayElement.classList.add('hidden')
     }
+}
+
+
+
+
+
+function backToBoard () {
+    document.body.classList.remove('confetti')
+    
+    toggleDisplay('board')
 }
 
 

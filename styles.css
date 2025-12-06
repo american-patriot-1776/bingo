@@ -24,6 +24,7 @@ img, picture, svg, video {
 h1 {
     font-size: 35px;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 button {
@@ -40,6 +41,18 @@ button {
 
 .container {
     padding-top: 100px;
+}
+
+.confetti {
+    background-image: url('img/confetti.webp');
+    background-repeat: repeat;
+    background-position: center center;
+}
+
+.results {
+    background: white;
+    padding: 5px;
+    max-width: 750px;
 }
 
 .row {

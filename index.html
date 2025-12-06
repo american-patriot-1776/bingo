@@ -14,18 +14,19 @@
 
     <body>
         <div class="desktop">
-                <div class="container" data-display="loading">
-                    <h1>LOADING...</h1>
-                </div>
+            <div class="container" data-display="loading">
+                <h1>LOADING...</h1>
+            </div>
 
-                <div class="container hidden" data-display="board">
-                    <h1><span id="name"></span>GAME AWARDS BINGO CARD 2025</h1>
+            <div class="container hidden" data-display="board">
+                <h1><span id="name"></span>GAME AWARDS BINGO CARD 2025</h1>
 
-                    <div onclick="onBoardClick(event)" id="board"></div>
-                </div>
+                <div onclick="onBoardClick(event)" id="board"></div>
+            </div>
 
-                <div class="container hidden" data-display="bingo">
-                    <h1>BINGO !!!</h1>
+            <div class="container hidden" data-display="bingo">
+                <div class="container-no-margin results">
+                    <img src="img/bingo.webp">
 
                     <img src="img/happy.webp">
 
@@ -33,8 +34,9 @@
 
                     <div id="bingo-list" class="container-no-margin"></div>
 
-                    <button onclick="toggleDisplay('board')">BACK TO BOARD</button>
+                    <button onclick="backToBoard()">BACK TO BOARD</button>
                 </div>
+            </div>
         </div>
 
         <div class="phone hidden">
