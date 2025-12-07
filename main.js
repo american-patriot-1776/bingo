@@ -190,10 +190,16 @@ async function loadAssets () {
 
 
 function getImage (url) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         const image = new Image()
 
-        image.onload = () => resolve()
+        image.onload = resolve
+
+        image.onerror = () => {
+            console.error(`SOMETHING WENT HORRIBLY WRONG TRYING TO LOAD ${ url }`)
+
+            reject()
+        }
 
         image.src = url
     })
@@ -204,10 +210,16 @@ function getImage (url) {
 
 
 function getAudio (url) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         const audio = new Audio()
 
-        audio.oncanplaythrough  = () => resolve()
+        audio.oncanplaythrough  = resolve
+
+        audio.onerror = () => {
+            console.error(`SOMETHING WENT HORRIBLY WRONG TRYING TO LOAD ${ url }`)
+            
+            reject()
+        }
 
         audio.src = url
 
