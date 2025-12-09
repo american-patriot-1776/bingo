@@ -99,7 +99,7 @@ const LIST = [
         image: ASSETS.images.libtard
     },
     {
-        text: 'SYDNEY GOODMANS THIGHS ARE SHOWN',
+        text: 'SYDNEE GOODMANS THIGHS ARE SHOWN',
         image: ASSETS.images.lick
     },
     {
