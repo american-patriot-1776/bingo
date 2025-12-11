@@ -182,7 +182,11 @@ async function loadAssets () {
         promises.push(promise)
     }
 
-    await Promise.all(promises)
+    try {
+        await Promise.all(promises)
+    } catch (error) {
+        console.error('SOMETHING WENT HORRIBLY WRONG LOADING ASSETS')
+    }
 }
 
 
@@ -195,11 +199,7 @@ function getImage (url) {
 
         image.onload = resolve
 
-        image.onerror = () => {
-            console.error(`SOMETHING WENT HORRIBLY WRONG TRYING TO LOAD ${ url }`)
-
-            reject()
-        }
+        image.onerror = reject
 
         image.src = url
     })
@@ -215,11 +215,7 @@ function getAudio (url) {
 
         audio.oncanplaythrough  = resolve
 
-        audio.onerror = () => {
-            console.error(`SOMETHING WENT HORRIBLY WRONG TRYING TO LOAD ${ url }`)
-            
-            reject()
-        }
+        audio.onerror = reject
 
         audio.src = url
 
